@@ -72,10 +72,10 @@
 - [x] T039 Run backend tests/Ruff/MyPy/pip-audit and frontend tests/lint/typecheck/build/npm audit; resolve every actionable finding.
 - [x] T040 Run exact current-tree and full-history safety scans for secrets, identity/contact patterns, and forbidden artifacts (SC-005).
 - [x] T041 Run Graphify code-only refresh and a five-axis code/security/documentation review.
-- [ ] T042 Push a review branch, require green protected PR checks, and perform an independent fresh-clone audit from GitHub.
-- [ ] T043 Rename GitHub repository to `whatsapp-ai-concierge-platform`, update origin/metadata/topics/handoffs, then make public only after all gates pass.
-- [ ] T044 Enable branch protection, secret scanning/push protection, Dependabot/security updates, CodeQL, and private vulnerability reporting; remediate or evidence-document all alerts.
-- [ ] T045 Add the verified public flagship and exact evidence to the private
+- [x] T042 Push a review branch, require green protected PR checks, and perform an independent fresh-clone audit from GitHub.
+- [x] T043 Rename GitHub repository to `whatsapp-ai-concierge-platform`, update origin/metadata/topics/handoffs, then make public only after all gates pass.
+- [x] T044 Enable branch protection, secret scanning/push protection, Dependabot/security updates, CodeQL, and private vulnerability reporting; remediate or evidence-document all alerts.
+- [x] T045 Add the verified public flagship and exact evidence to the private
   shared portfolio coordination hub without publishing source locations or identifiers.
 
 ## Dependencies and Execution Order

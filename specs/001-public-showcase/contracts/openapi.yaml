@@ -1,0 +1,100 @@
+openapi: 3.1.0
+info:
+  title: WhatsApp AI Concierge Showcase API
+  version: 0.1.0
+  description: Synthetic, local-first reference implementation API.
+paths:
+  /health:
+    get:
+      summary: Report service readiness
+      responses:
+        "200":
+          description: Service is ready
+  /webhooks/messages:
+    post:
+      summary: Accept a signed synthetic provider message
+      parameters:
+        - $ref: "#/components/parameters/BusinessHeader"
+        - name: x-webhook-signature
+          in: header
+          required: true
+          schema: { type: string }
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/InboundMessage" }
+      responses:
+        "200": { description: Message processed or identified as duplicate }
+        "401": { description: Invalid signature }
+        "404": { description: Unknown demo business }
+        "422": { description: Invalid or oversized input }
+  /api/conversations:
+    get:
+      summary: List tenant-scoped conversations
+      parameters:
+        - $ref: "#/components/parameters/BusinessHeader"
+        - $ref: "#/components/parameters/DemoTokenHeader"
+      responses:
+        "200": { description: Conversation summaries }
+        "401": { description: Invalid demo authorization }
+  /api/conversations/{conversation_id}:
+    get:
+      summary: Inspect one tenant-scoped conversation
+      parameters:
+        - $ref: "#/components/parameters/BusinessHeader"
+        - $ref: "#/components/parameters/DemoTokenHeader"
+        - name: conversation_id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200": { description: Conversation, messages, handoff, and audit evidence }
+        "404": { description: Not found within the authenticated tenant }
+  /api/demo/messages:
+    post:
+      summary: Submit a message from the local operator demo
+      parameters:
+        - $ref: "#/components/parameters/BusinessHeader"
+        - $ref: "#/components/parameters/DemoTokenHeader"
+      requestBody:
+        required: true
+        content:
+          application/json:
+            schema: { $ref: "#/components/schemas/InboundMessage" }
+      responses:
+        "200": { description: Synthetic message result }
+  /api/handoffs/{handoff_id}/resolve:
+    post:
+      summary: Resolve a tenant-scoped handoff idempotently
+      parameters:
+        - $ref: "#/components/parameters/BusinessHeader"
+        - $ref: "#/components/parameters/DemoTokenHeader"
+        - name: handoff_id
+          in: path
+          required: true
+          schema: { type: string }
+      responses:
+        "200": { description: Current resolved handoff state }
+        "404": { description: Not found within the authenticated tenant }
+components:
+  parameters:
+    BusinessHeader:
+      name: x-demo-business
+      in: header
+      required: true
+      schema: { type: string }
+    DemoTokenHeader:
+      name: x-demo-token
+      in: header
+      required: true
+      schema: { type: string }
+  schemas:
+    InboundMessage:
+      type: object
+      required: [event_id, customer_label, text, locale]
+      properties:
+        event_id: { type: string, minLength: 1, maxLength: 80 }
+        customer_label: { type: string, minLength: 1, maxLength: 80 }
+        text: { type: string, minLength: 1, maxLength: 1000 }
+        locale: { type: string, enum: [en, fr, es] }

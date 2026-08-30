@@ -1,0 +1,23 @@
+services:
+  api:
+    build: ./backend
+    environment:
+      DEMO_MODE: "true"
+      DATABASE_PATH: /data/demo.db
+      DEMO_PRIMARY_BUSINESS: northstar-demo
+      DEMO_PRIMARY_TOKEN: local-synthetic-demo-token
+      DEMO_PRIMARY_WEBHOOK_SECRET: local-synthetic-webhook-secret
+      DEMO_SECONDARY_BUSINESS: harbor-demo
+      DEMO_SECONDARY_TOKEN: local-synthetic-secondary-token
+      DEMO_SECONDARY_WEBHOOK_SECRET: local-synthetic-secondary-secret
+    volumes:
+      - demo-data:/data
+    ports: ["8000:8000"]
+  web:
+    build: ./frontend
+    environment:
+      NEXT_PUBLIC_API_URL: http://localhost:8000
+    ports: ["3000:3000"]
+    depends_on: [api]
+volumes:
+  demo-data:

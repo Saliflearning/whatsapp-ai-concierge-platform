@@ -376,7 +376,8 @@ class SQLiteRepository:
             ),
         )
 
-    def list_conversations(self, business_id: str) -> list[dict[str, Any]]:
+    def list_conversations(self, business_id: str, limit: int = 50) -> list[dict[str, Any]]:
+        bounded_limit = min(max(limit, 1), 100)
         with self.connection() as connection:
             rows = connection.execute(
                 """
@@ -391,8 +392,9 @@ class SQLiteRepository:
                 FROM conversations c
                 WHERE c.business_id = ?
                 ORDER BY c.updated_at DESC
+                LIMIT ?
                 """,
-                (business_id,),
+                (business_id, bounded_limit),
             ).fetchall()
         return [dict(row) for row in rows]
 
@@ -412,6 +414,7 @@ class SQLiteRepository:
                 LEFT JOIN knowledge_sources k ON k.id = m.knowledge_source_id
                 WHERE m.conversation_id = ? AND m.business_id = ?
                 ORDER BY m.created_at, m.direction
+                LIMIT 200
                 """,
                 (conversation_id, business_id),
             ).fetchall()
@@ -420,6 +423,7 @@ class SQLiteRepository:
                 SELECT id, reason_code, status, created_at, resolved_at
                 FROM handoffs WHERE conversation_id = ? AND business_id = ?
                 ORDER BY created_at DESC
+                LIMIT 100
                 """,
                 (conversation_id, business_id),
             ).fetchall()
@@ -428,6 +432,7 @@ class SQLiteRepository:
                 SELECT id, event_type, actor_type, metadata_json, created_at
                 FROM audit_events WHERE conversation_id = ? AND business_id = ?
                 ORDER BY created_at DESC
+                LIMIT 200
                 """,
                 (conversation_id, business_id),
             ).fetchall()

@@ -2,7 +2,7 @@ from __future__ import annotations
 
 from typing import cast
 
-from fastapi import APIRouter, Depends, HTTPException, Request, status
+from fastapi import APIRouter, Depends, HTTPException, Query, Request, status
 
 from app.core.security import require_operator
 from app.repositories.sqlite import SQLiteRepository
@@ -17,9 +17,10 @@ def repository(request: Request) -> SQLiteRepository:
 @router.get("/conversations")
 def list_conversations(
     request: Request,
+    limit: int = Query(default=50, ge=1, le=100),
     business_id: str = Depends(require_operator),
 ) -> dict[str, object]:
-    return {"conversations": repository(request).list_conversations(business_id)}
+    return {"conversations": repository(request).list_conversations(business_id, limit)}
 
 
 @router.get("/conversations/{conversation_id}")

@@ -80,6 +80,19 @@ def test_signed_webhook_accepts_valid_signature(client: TestClient) -> None:
     assert response.status_code == 200
 
 
+def test_webhook_rejects_oversized_body_before_processing(client: TestClient) -> None:
+    response = client.post(
+        "/webhooks/messages",
+        headers={
+            "content-type": "application/json",
+            "x-demo-business": "northstar-demo",
+            "x-webhook-signature": "sha256=synthetic",
+        },
+        content=b"x" * 4097,
+    )
+    assert response.status_code == 413
+
+
 def test_cross_tenant_conversation_is_not_disclosed(
     client: TestClient,
     primary_headers: dict[str, str],

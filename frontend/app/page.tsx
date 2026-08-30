@@ -14,7 +14,7 @@ export default function Home() {
     <main>
       <nav className="nav shell" aria-label="Primary navigation">
         <a className="brand" href="#top"><span>WA</span> Concierge <i>Reference</i></a>
-        <div><a href="#architecture">Architecture</a><a href="#demo">Demo</a><a href="#evidence">Evidence</a></div>
+        <div><a href="#architecture">Architecture</a><a href="/demo">Demo</a><a href="#evidence">Evidence</a></div>
         <a className="repo-link" href="https://github.com/Saliflearning/whatsapp-ai-concierge-platform">View repository ↗</a>
       </nav>
 
@@ -23,7 +23,7 @@ export default function Home() {
           <p className="eyebrow"><span /> Production-minded AI systems</p>
           <h1>Conversations that know when to <em>stop.</em></h1>
           <p className="lede">A privacy-safe reference platform for grounded, multilingual messaging workflows—with tenant isolation, explainable decisions, and human escalation built in.</p>
-          <div className="hero-actions"><a className="primary" href="#demo">Explore the decision trace</a><a href="#architecture">Read the architecture</a></div>
+          <div className="hero-actions"><a className="primary" href="/demo">Explore the decision trace</a><a href="#architecture">Read the architecture</a></div>
           <div className="chips"><span>FastAPI</span><span>Next.js</span><span>SQLite</span><span>HMAC</span><span>Python 3.12</span></div>
         </div>
         <div className="system-card" aria-label="System flow">

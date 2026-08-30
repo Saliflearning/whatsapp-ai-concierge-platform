@@ -45,3 +45,9 @@ def test_cross_tenant_handoff_mutation_is_hidden(
         f"/api/handoffs/{created['handoff_id']}/resolve", headers=secondary_headers
     )
     assert response.status_code == 404
+
+
+def test_conversation_listing_limit_is_bounded(
+    client: TestClient, primary_headers: dict[str, str]
+) -> None:
+    assert client.get("/api/conversations?limit=101", headers=primary_headers).status_code == 422

@@ -12,6 +12,8 @@
 .claude/
 CLAUDE.md
 graphify-out/
+.playwright-cli/
+output/
 
 # Python
 __pycache__/
@@ -22,10 +24,12 @@ __pycache__/
 .venv/
 venv/
 coverage.xml
+.coverage
 htmlcov/
 
 # Node and Next.js
 node_modules/
+node_modules.partial/
 .next/
 out/
 dist/

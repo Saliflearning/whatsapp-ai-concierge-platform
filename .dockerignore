@@ -1,0 +1,17 @@
+.git
+.github
+.agents
+.claude
+.specify
+graphify-out
+**/.env*
+**/.data
+**/.venv
+**/__pycache__
+**/.pytest_cache
+**/.mypy_cache
+**/.ruff_cache
+**/node_modules
+**/.next
+**/coverage
+docs/assets
